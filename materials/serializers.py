@@ -4,16 +4,16 @@ from materials.models import Course, Lesson
 
 
 class CourseSerializer(ModelSerializer):
-    """ Сериалайзер для модели Курса """
+    """Сериалайзер для модели Курса"""
 
     class Meta:
         model = Course
-        fields = '__all__'
+        fields = "__all__"
 
 
 class LessonSerializer(ModelSerializer):
-    """ Сериалайзер для модели Урока """
+    """Сериалайзер для модели Урока"""
 
     class Meta:
         model = Lesson
-        fields = '__all__'
+        fields = "__all__"
