@@ -45,16 +45,43 @@ class User(AbstractUser):
 
 
 class Payments(models.Model):
-    """ Модель платежей """
+    """Модель платежей"""
 
     PAYMENT_METHOD_CHOICES = [
-        ('наличные', 'Наличные'),
-        ('перевод на счет', 'Перевод на счет')
+        ("наличные", "Наличные"),
+        ("перевод на счет", "Перевод на счет"),
     ]
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь', related_name='payments')
-    payment_date = models.DateTimeField(auto_now_add=True, verbose_name='Дата оплаты')
-    paid_course = models.ForeignKey(Course, on_delete=models.SET_NULL, blank=True, null=True, verbose_name='Оплаченный курс', related_name='payments')
-    paid_lesson = models.ForeignKey(Lesson, on_delete=models.SET_NULL, blank=True, null=True, verbose_name='Оплаченный урок', related_name='payments')
-    payment_amount = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True, verbose_name='Сумма оплаты')
-    payment_method = models.CharField(max_length=15, choices=PAYMENT_METHOD_CHOICES, verbose_name='Способ оплаты')
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        verbose_name="Пользователь",
+        related_name="payments",
+    )
+    payment_date = models.DateTimeField(auto_now_add=True, verbose_name="Дата оплаты")
+    paid_course = models.ForeignKey(
+        Course,
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        verbose_name="Оплаченный курс",
+        related_name="payments",
+    )
+    paid_lesson = models.ForeignKey(
+        Lesson,
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        verbose_name="Оплаченный урок",
+        related_name="payments",
+    )
+    payment_amount = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        blank=True,
+        null=True,
+        verbose_name="Сумма оплаты",
+    )
+    payment_method = models.CharField(
+        max_length=15, choices=PAYMENT_METHOD_CHOICES, verbose_name="Способ оплаты"
+    )
