@@ -28,9 +28,11 @@ class CourseSerializer(ModelSerializer):
     class Meta:
         model = Course
         fields = [
+            "id",
             "title",
             "preview",
             "description",
             "count_quantity_lessons",
             "lessons_info",
+            "owner",
         ]

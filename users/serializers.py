@@ -13,12 +13,12 @@ class UserSerializer(ModelSerializer):
 
 
 class UserInfoSerializer(ModelSerializer):
-    """ Общая информация о пользователе """
+    """Общая информация о пользователе"""
 
     class Meta:
 
         model = User
-        fields = ('id', 'first_name', 'email', 'phone', 'country', 'avatar')
+        fields = ("id", "first_name", "email", "phone", "country", "avatar")
 
 
 class PaymentsSerializer(ModelSerializer):
