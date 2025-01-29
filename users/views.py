@@ -5,27 +5,9 @@ from rest_framework.permissions import AllowAny
 from rest_framework.viewsets import ModelViewSet
 
 from users.models import Payments, User
-from users.permissions import IsOwner
+from users.permissions import IsOwnerUser
 from users.serializers import PaymentsSerializer, UserSerializer, UserInfoSerializer
 
-
-# class UserViewSet(ModelViewSet):
-#     """Вьюсет для пользователя"""
-#
-#     queryset = User.objects.all()
-#
-#     def get_serializer_class(self):
-#         """ Выбор сериализатора в зависимости от действия """
-#         if self.action in ['retrieve', 'list']:
-#             return UserInfoSerializer
-#         else:
-#             return UserSerializer
-#
-#     def get_permissions(self):
-#
-#         if self.action == 'create':
-#             self.permission_classes = (AllowAny,)
-#         elif self.action ==
 
 class UserCreateAPIView(CreateAPIView):
     """ Создание пользователя """
@@ -60,7 +42,7 @@ class UserUpdateAPIView(UpdateAPIView):
 
     serializer_class = UserSerializer
     queryset = User.objects.all()
-    permission_classes = (IsOwner,)
+    permission_classes = (IsOwnerUser,)
 
 
 class UserDestroyAPIView(DestroyAPIView):
