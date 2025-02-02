@@ -89,3 +89,16 @@ class Lesson(models.Model):
 
         verbose_name = "Урок"
         verbose_name_plural = "Уроки"
+
+
+class Subscription(models.Model):
+    """ Модель подписки """
+
+    user = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True, related_name='subscriptions')
+    course = models.ForeignKey(Course, on_delete=models.SET_NULL, blank=True, null=True, related_name='subscriptions')
+    subscription_flag = models.BooleanField(verbose_name='Признак подписки', blank=True, null=True, default=False)
+
+    class Meta:
+
+        verbose_name = 'Подписка'
+        verbose_name_plural = 'Подписки'
