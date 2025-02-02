@@ -49,9 +49,9 @@ class CourseSerializer(serializers.ModelSerializer):
         return Lesson.objects.filter(course=course).count()
 
     def get_is_sub_user(self, course):
-        """ Подписан пользователь или нет """
+        """Подписан пользователь или нет"""
 
-        user = self.context['request'].user
+        user = self.context["request"].user
         is_sub = Subscription.objects.filter(user=user, course=course).first()
         if is_sub:
             return is_sub.subscription_flag
@@ -67,5 +67,5 @@ class CourseSerializer(serializers.ModelSerializer):
             "count_quantity_lessons",
             "lessons_info",
             "owner",
-            "is_sub_user"
+            "is_sub_user",
         ]
