@@ -1,22 +1,25 @@
-from rest_framework.fields import SerializerMethodField
-from rest_framework.serializers import ModelSerializer
+from rest_framework import serializers
 
 from materials.models import Course, Lesson
+from materials.validators import validate_link
 
 
-class LessonSerializer(ModelSerializer):
+class LessonSerializer(serializers.ModelSerializer):
     """Сериализатор для модели Урока"""
+
+    # только http://youtube.com
+    link_to_the_video = serializers.CharField(validators=[validate_link])
 
     class Meta:
         model = Lesson
         fields = "__all__"
 
 
-class CourseSerializer(ModelSerializer):
+class CourseSerializer(serializers.ModelSerializer):
     """Сериализатор для модели Курса"""
 
     # поле вывода количества уроков
-    count_quantity_lessons = SerializerMethodField()
+    count_quantity_lessons = serializers.SerializerMethodField()
     # поле вывода информации обо всех уроках
     lessons_info = LessonSerializer(many=True, read_only=True, source="lessons")
 
