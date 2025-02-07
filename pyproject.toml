@@ -19,6 +19,8 @@ djangorestframework-simplejwt = "^5.4.0"
 ipython = "^8.31.0"
 coverage = "^7.6.10"
 drf-yasg = "^1.21.8"
+stripe = "^11.5.0"
+forex-python = "^1.8"
 
 
 [build-system]
