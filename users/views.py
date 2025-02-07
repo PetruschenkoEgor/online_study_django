@@ -10,7 +10,8 @@ from users.models import Payments, User
 from users.permissions import IsOwnerUser
 from users.serializers import (PaymentsSerializer, UserInfoSerializer,
                                UserSerializer)
-from users.services import convert_rub_to_usd, create_stripe_price, create_stripe_session
+from users.services import (convert_rub_to_usd, create_stripe_price,
+                            create_stripe_session)
 
 
 class UserCreateAPIView(CreateAPIView):
@@ -72,9 +73,9 @@ class PaymentsCreateAPIView(CreateAPIView):
                 payment.link = payment_link
                 payment.save()
             else:
-                print('Ошибка при создании сессии в Stripe')
+                print("Ошибка при создании сессии в Stripe")
         else:
-            print('Ошибка при создании цены в Stripe')
+            print("Ошибка при создании цены в Stripe")
 
 
 class PaymentsRetrieveAPIView(RetrieveAPIView):

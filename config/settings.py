@@ -27,7 +27,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "rest_framework_simplejwt",
-    'drf_yasg',
+    "drf_yasg",
     "django_filters",
     "users",
     "materials",
@@ -132,4 +132,4 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "users.User"
 
-API_KEY = os.getenv('API_KEY')
+API_KEY = os.getenv("API_KEY")
