@@ -1,17 +1,57 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter, SearchFilter
-from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView
+from rest_framework.generics import (CreateAPIView, DestroyAPIView,
+                                     ListAPIView, RetrieveAPIView,
+                                     UpdateAPIView)
+from rest_framework.permissions import AllowAny
 from rest_framework.viewsets import ModelViewSet
 
 from users.models import Payments, User
-from users.serializers import PaymentsSerializer, UserSerializer
+from users.permissions import IsOwnerUser
+from users.serializers import (PaymentsSerializer, UserInfoSerializer,
+                               UserSerializer)
 
 
-class UserViewSet(ModelViewSet):
-    """Вьюсет для пользователя"""
+class UserCreateAPIView(CreateAPIView):
+    """Создание пользователя"""
+
+    serializer_class = UserSerializer
+    permission_classes = (AllowAny,)
+
+    def perform_create(self, serializer):
+        """Переопределяем логику сохранения пользователя"""
+
+        user = serializer.save(is_active=True)
+        user.set_password(user.password)
+        user.save()
+
+
+class UserRetrieveAPIView(RetrieveAPIView):
+    """Информация о пользователе"""
+
+    serializer_class = UserInfoSerializer
+    queryset = User.objects.all()
+
+
+class UserListAPIView(ListAPIView):
+    """Список пользователей"""
+
+    serializer_class = UserInfoSerializer
+    queryset = User.objects.all()
+
+
+class UserUpdateAPIView(UpdateAPIView):
+    """Обновление пользователя"""
+
+    serializer_class = UserSerializer
+    queryset = User.objects.all()
+    permission_classes = (IsOwnerUser,)
+
+
+class UserDestroyAPIView(DestroyAPIView):
+    """Удаление пользователя"""
 
     queryset = User.objects.all()
-    serializer_class = UserSerializer
 
 
 class PaymentsCreateAPIView(CreateAPIView):

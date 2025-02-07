@@ -1,5 +1,7 @@
 from django.db import models
 
+from config.settings import AUTH_USER_MODEL
+
 
 class Course(models.Model):
     """Модель курса"""
@@ -21,6 +23,13 @@ class Course(models.Model):
         help_text="Введите описание курса",
         blank=True,
         null=True,
+    )
+    owner = models.ForeignKey(
+        AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name="courses",
     )
 
     def __str__(self):
@@ -64,6 +73,13 @@ class Lesson(models.Model):
     course = models.ForeignKey(
         Course, on_delete=models.SET_NULL, blank=True, null=True, related_name="lessons"
     )
+    owner = models.ForeignKey(
+        AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name="lessons",
+    )
 
     def __str__(self):
 
@@ -73,3 +89,30 @@ class Lesson(models.Model):
 
         verbose_name = "Урок"
         verbose_name_plural = "Уроки"
+
+
+class Subscription(models.Model):
+    """Модель подписки"""
+
+    user = models.ForeignKey(
+        AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name="subscriptions",
+    )
+    course = models.ForeignKey(
+        Course,
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name="subscriptions",
+    )
+    subscription_flag = models.BooleanField(
+        verbose_name="Признак подписки", blank=True, null=True, default=False
+    )
+
+    class Meta:
+
+        verbose_name = "Подписка"
+        verbose_name_plural = "Подписки"
