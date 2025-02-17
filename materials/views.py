@@ -1,4 +1,7 @@
+from __future__ import absolute_import, unicode_literals
+
 from django.db.models import Q
+from rest_framework.decorators import action
 from rest_framework.generics import (CreateAPIView, DestroyAPIView,
                                      ListAPIView, RetrieveAPIView,
                                      UpdateAPIView, get_object_or_404)
@@ -10,6 +13,8 @@ from rest_framework.viewsets import ModelViewSet
 from materials.models import Course, Lesson, Subscription
 from materials.paginations import CustomPagination
 from materials.serializers import CourseSerializer, LessonSerializer
+from materials.tasks import send_mail_after_update_course
+from users.models import User
 from users.permissions import IsModer, IsOwner
 
 
@@ -43,6 +48,21 @@ class CourseViewSet(ModelViewSet):
             return Course.objects.all()
         else:
             return Course.objects.filter(owner=self.request.user)
+
+    @action(detail=True, methods=("patch", "put"))
+    def updated(self, request, pk):
+        """Если курс обновляется, то пользователю приходит оповещение."""
+
+        # Обновление объекта курса
+        response = self.partial_update(request, pk)
+
+        # Получение подписчиков курса
+        subscriptions = Subscription.objects.filter(course=pk, subscription_flag=True)
+        email_list = [subscription.user.email for subscription in subscriptions]
+
+        # Отправляем уведомление подписчикам об обновлении курса
+        send_mail_after_update_course.delay(email_list)
+        return response
 
 
 class LessonCreateAPIView(CreateAPIView):

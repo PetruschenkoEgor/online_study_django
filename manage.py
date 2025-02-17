@@ -3,6 +3,10 @@
 import os
 import sys
 
+import eventlet
+
+eventlet.monkey_patch()
+
 
 def main():
     """Run administrative tasks."""
