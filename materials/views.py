@@ -49,9 +49,9 @@ class CourseViewSet(ModelViewSet):
         else:
             return Course.objects.filter(owner=self.request.user)
 
-    @action(detail=True, methods=('patch', 'put'))
+    @action(detail=True, methods=("patch", "put"))
     def updated(self, request, pk):
-        """ Если курс обновляется, то пользователю приходит оповещение. """
+        """Если курс обновляется, то пользователю приходит оповещение."""
 
         # Обновление объекта курса
         response = self.partial_update(request, pk)
